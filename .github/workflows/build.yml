@@ -5,7 +5,7 @@ permissions:
 
 on:
   push:
-    branches: [release]
+    branches: [codex/iphone-usb-setup]
   workflow_dispatch:
     inputs:
       is_managed:

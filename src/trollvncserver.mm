@@ -67,7 +67,7 @@ int gOrientationFixQuad = 0; // 0=0°, 1=90°CW, 2=180°, 3=270°CW
 static BOOL gEnabled = YES;
 static int gPort = 5901;
 static int gTvCtlPort = 0;        // port for control connections (0 = disabled)
-static NSString *gBindHost = nil; // optional bind address from CLI/config
+static NSString *gBindHost = @"127.0.0.1"; // USB setup: loopback unless explicitly changed in settings
 static NSString *gDesktopName = @"TrollVNC";
 static BOOL gViewOnly = NO;
 static double gKeepAliveSec = 0.0; // 15..86400
