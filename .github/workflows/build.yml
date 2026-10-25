@@ -1,5 +1,8 @@
 name: Build TrollVNC
 
+permissions:
+  contents: read
+
 on:
   push:
     branches: [release]
@@ -71,14 +74,17 @@ env:
 jobs:
   build:
     runs-on: macos-14
+    timeout-minutes: 30
 
     strategy:
       matrix:
-        scheme: ["default", "rootless", "roothide", "bootstrap"]
+        scheme: ["bootstrap"]
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install dependencies
         run: |
@@ -91,6 +97,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: roothide/theos
+          ref: cfba89a53a05b4a1b822121158acc3669c20602f
           path: theos-roothide
           submodules: recursive
 
