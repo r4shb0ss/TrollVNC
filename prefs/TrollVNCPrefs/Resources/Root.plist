@@ -73,6 +73,8 @@
 			<string>BindHost</string>
 			<key>label</key>
 			<string>Bind Address</string>
+			<key>default</key>
+			<string>127.0.0.1</string>
 			<key>placeholder</key>
 			<string>Leave empty for all interfaces</string>
 			<key>noAutoCorrect</key>

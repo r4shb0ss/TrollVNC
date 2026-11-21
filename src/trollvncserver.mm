@@ -68,7 +68,7 @@ int gOrientationFixQuad = 0; // 0=0°, 1=90°CW, 2=180°, 3=270°CW
 static BOOL gEnabled = YES;
 static int gPort = 5901;
 static int gTvCtlPort = 0;        // port for control connections (0 = disabled)
-static NSString *gBindHost = nil; // optional bind address from CLI/config
+static NSString *gBindHost = @"127.0.0.1"; // USB setup: loopback unless explicitly changed in settings
 static NSString *gDesktopName = @"TrollVNC";
 static BOOL gViewOnly = NO;
 static double gKeepAliveSec = 0.0; // 15..86400
@@ -3642,6 +3642,8 @@ static void setupRfbScreen(int argc, const char *argv[]) {
     TVBindHostKind hostKind = tvClassifyBindHost(gBindHost, &v4Addr, &v6Addr);
     if (hostKind == kTVBindHostKindIPv4) {
         gScreen->listenInterface = v4Addr;
+        // A specific IPv4 bind must not leave an unrestricted IPv6 listener.
+        gScreen->ipv6port = 0;
     } else if (hostKind == kTVBindHostKindIPv6) {
         char ifaceBuf[INET6_ADDRSTRLEN];
         const char *iface = inet_ntop(AF_INET6, &v6Addr, ifaceBuf, sizeof(ifaceBuf));
@@ -3650,6 +3652,7 @@ static void setupRfbScreen(int argc, const char *argv[]) {
             exit(EXIT_FAILURE);
         }
         gScreen->listen6Interface = strdup(iface);
+        gScreen->port = 0;
     } else if (hostKind == kTVBindHostKindInvalid && gBindHost) {
         TVPrintError("Invalid host address: %s", [gBindHost UTF8String]);
         exit(EXIT_FAILURE);
